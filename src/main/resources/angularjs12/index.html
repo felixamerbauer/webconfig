@@ -1,38 +1,40 @@
 <!doctype html>
 <html ng-app="ui.bootstrap.demo">
-  <head>
+<head>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.js"></script>
     <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.12.0.js"></script>
     <script src="application.js"></script>
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
-  </head>
-  <body>
+</head>
+<body>
 
-<div ng-controller="ButtonsCtrl">
+<div ng-controller="MainCtrl">
     <h4>Single toggle</h4>
-    <pre>{{singleModel}}</pre>
-    <button type="button" class="btn btn-primary" ng-model="singleModel" btn-checkbox btn-checkbox-true="1" btn-checkbox-false="0">
+    <pre>{{data.singleModel}}</pre>
+    <button type="button" class="btn btn-primary" ng-model="data.singleModel" ng-change="change()" btn-checkbox
+            btn-checkbox-true="1"
+            btn-checkbox-false="0">
         Single Toggle
     </button>
     <h4>Checkbox</h4>
-    <pre>{{checkModel}}</pre>
+    <pre>{{data.checkModel}}</pre>
     <div class="btn-group">
-        <label class="btn btn-primary" ng-model="checkModel.left" btn-checkbox>Left</label>
-        <label class="btn btn-primary" ng-model="checkModel.middle" btn-checkbox>Middle</label>
-        <label class="btn btn-primary" ng-model="checkModel.right" btn-checkbox>Right</label>
+        <label class="btn btn-primary" ng-model="data.checkModel.left" btn-checkbox>Left</label>
+        <label class="btn btn-primary" ng-model="data.checkModel.middle" btn-checkbox>Middle</label>
+        <label class="btn btn-primary" ng-model="data.checkModel.right" btn-checkbox>Right</label>
     </div>
     <h4>Radio &amp; Uncheckable Radio</h4>
-    <pre>{{radioModel || 'null'}}</pre>
+    <pre>{{data.radioModel || 'null'}}</pre>
     <div class="btn-group">
-        <label class="btn btn-primary" ng-model="radioModel" btn-radio="'Left'">Left</label>
-        <label class="btn btn-primary" ng-model="radioModel" btn-radio="'Middle'">Middle</label>
-        <label class="btn btn-primary" ng-model="radioModel" btn-radio="'Right'">Right</label>
+        <label class="btn btn-primary" ng-model="data.radioModel" btn-radio="'Left'">Left</label>
+        <label class="btn btn-primary" ng-model="data.radioModel" btn-radio="'Middle'">Middle</label>
+        <label class="btn btn-primary" ng-model="data.radioModel" btn-radio="'Right'">Right</label>
     </div>
     <div class="btn-group">
-        <label class="btn btn-success" ng-model="radioModel" btn-radio="'Left'" uncheckable>Left</label>
-        <label class="btn btn-success" ng-model="radioModel" btn-radio="'Middle'" uncheckable>Middle</label>
-        <label class="btn btn-success" ng-model="radioModel" btn-radio="'Right'" uncheckable>Right</label>
+        <label class="btn btn-success" ng-model="data.radioModel" btn-radio="'Left'" uncheckable>Left</label>
+        <label class="btn btn-success" ng-model="data.radioModel" btn-radio="'Middle'" uncheckable>Middle</label>
+        <label class="btn btn-success" ng-model="data.radioModel" btn-radio="'Right'" uncheckable>Right</label>
     </div>
 </div>
-  </body>
+</body>
 </html>
