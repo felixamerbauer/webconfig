@@ -1,10 +1,11 @@
 package at.amerbauer
 
-import akka.actor.ActorSystem
+import akka.actor.{Props, Actor, ActorSystem}
 import akka.util.Timeout
 import spray.httpx.SprayJsonSupport._
 import spray.json.DefaultJsonProtocol
 import spray.routing.SimpleRoutingApp
+import spray.http.StatusCodes.OK
 
 import scala.concurrent.duration._
 
@@ -20,6 +21,7 @@ object MyJsonProtocol extends DefaultJsonProtocol {
 object Server extends App with SimpleRoutingApp {
   // setup
   implicit val actorSystem = ActorSystem()
+  actorSystem.actorOf(Props(classOf[DataManipulator]))
   implicit val timeout = Timeout(1.second)
 
   // data
@@ -33,10 +35,11 @@ object Server extends App with SimpleRoutingApp {
     } ~
       path("service") {
         post {
-          entity(as[Data]) { data =>
+          entity(as[Data]) { updatedData =>
             complete {
-              println(s"got $data")
-              "OK"
+              println(s"got $updatedData")
+              data = updatedData
+              OK
             }
           }
         } ~
@@ -47,5 +50,23 @@ object Server extends App with SimpleRoutingApp {
             }
           }
       }
+  }
+}
+
+class DataManipulator extends Actor {
+
+  import context.dispatcher
+
+  val tick = context.system.scheduler.schedule(1 second, 7 seconds, self, "tick")
+
+  val change = Map("Left" -> "Middle", "Middle" -> "Right", "Right" -> "Left")
+
+  override def postStop() = tick.cancel()
+
+  def receive = {
+    case "tick" =>
+      val newData = Server.data.copy(radioModel = change(Server.data.radioModel))
+      println(s"Updating data\n${Server.data} ->\n$newData")
+      Server.data = newData
   }
 }
